@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Helmet } from 'react-helmet'
+import { Helmet } from 'react-helmet';
+
 import './index.css';
 
 class App extends React.Component {
@@ -15,6 +16,12 @@ class App extends React.Component {
     };
     this.handlerSearchByTitle = this.handlerSearchByTitle.bind(this);
     this.handlerSearchByAuthor = this.handlerSearchByAuthor.bind(this);
+    this.handlerSearchAllBooks = this.handlerSearchAllBooks.bind(this);
+  }
+
+  handlerSearchAllBooks() {
+    this.setState({ title: '', author: '' })
+    this.getData("https://my-home-bookshelf.herokuapp.com/books")
   }
 
   handlerSearchByTitle(searchtitle) {
@@ -78,7 +85,7 @@ class App extends React.Component {
           </Helmet>
           <SearchBooksByTitle action={this.handlerSearchByTitle} />
           <SearchBooksByAuthor action={this.handlerSearchByAuthor} />
-
+          <SearchAllBooks action={this.handlerSearchAllBooks} />
           <BookList books={this.state.books} title={this.state.title} author={this.state.author} />
         </div>
       )
@@ -120,6 +127,25 @@ class SearchBooksByTitle extends React.Component {
   }
 }
 
+class SearchAllBooks extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.handlePress = this.handlePress.bind(this);
+  }
+
+  handlePress(event) {
+    event.preventDefault();
+    this.props.action()
+  }
+
+  render() {
+    return(
+          <button onClick={this.handlePress}>Mostra tutti i libri</button>       
+    )
+  }
+}
+
 class SearchBooksByAuthor extends React.Component {
 
   constructor(props) {
@@ -139,7 +165,6 @@ class SearchBooksByAuthor extends React.Component {
     event.preventDefault();
     this.props.action(this.state.author)
     this.setState({ author: '' });
-
   }
 
   render() {

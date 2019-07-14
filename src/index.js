@@ -10,6 +10,7 @@ class App extends React.Component {
     this.state = {
       error: null,
       isLoaded: false,
+      isSearched: false,
       title: '',
       author: '',
       books: []
@@ -20,25 +21,36 @@ class App extends React.Component {
   }
 
   handlerSearchAllBooks() {
-    this.setState({ title: '', author: '' })
-    this.getData("https://my-home-bookshelf.herokuapp.com/books")
+    this.setState({
+      isLoaded: false,
+      isSearched: true
+    })
+    this.getData("https://my-home-bookshelf.herokuapp.com/books", '', '')
   }
 
-  handlerSearchByTitle(searchtitle) {
-    if (searchtitle) {
-      this.setState({ title: searchtitle, author: '' })
-      this.getData("https://my-home-bookshelf.herokuapp.com/book/title/" + searchtitle)
+  handlerSearchByTitle(searchedTitle) {
+    this.setState({
+      isLoaded: false,
+      isSearched: true
+    })
+    if (searchedTitle) {
+      // this.setState({ title: searchedTitle, author: '' })
+      this.getData("https://my-home-bookshelf.herokuapp.com/book/title/" + searchedTitle, '', searchedTitle)
     }
   }
 
-  handlerSearchByAuthor(searchAuthor) {
-    if (searchAuthor) {
-      this.setState({ author: searchAuthor, title: '' })
-      this.getData("https://my-home-bookshelf.herokuapp.com/books/author/" + searchAuthor)
+  handlerSearchByAuthor(searchedAuthor) {
+    this.setState({
+      isLoaded: false,
+      isSearched: true
+    })
+    if (searchedAuthor) {
+      // this.setState({ author: searchedAuthor, title: '' })
+      this.getData("https://my-home-bookshelf.herokuapp.com/books/author/" + searchedAuthor, searchedAuthor, '')
     }
   }
 
-  getData(fetchUrl) {
+  getData(fetchUrl, searchedAuthor, searchedTitle) {
     fetch(fetchUrl)
       .then(res => res.json())
       .then(
@@ -46,11 +58,15 @@ class App extends React.Component {
           if (result == null) {
             this.setState({
               isLoaded: true,
+              author: searchedAuthor,
+              title: searchedTitle,
               books: []
             });
           } else {
             this.setState({
               isLoaded: true,
+              author: searchedAuthor,
+              title: searchedTitle,
               books: result
             });
           }
@@ -68,15 +84,39 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    this.getData("https://my-home-bookshelf.herokuapp.com/books")
+    // this.getData("https://my-home-bookshelf.herokuapp.com/books")
+    this.setState({
+      isLoaded: true
+    })
   }
 
   render() {
-    const { error, isLoaded, books } = this.state;
+    const { error, isLoaded, isSearched, books } = this.state;
     if (error) {
       return <div>Error: {error.message} {books}</div>;
-    } else if (!isLoaded) {
-      return <div>Loading...</div>;
+    } else if (isSearched && !isLoaded) {
+      return (
+        <div>
+          <Helmet>
+            <title>La mia Liberia</title>
+          </Helmet>
+          <SearchBooksByTitle action={this.handlerSearchByTitle} />
+          <SearchBooksByAuthor action={this.handlerSearchByAuthor} />
+          <SearchAllBooks action={this.handlerSearchAllBooks} />
+          <div>Loading...</div>
+        </div>
+      )
+    } else if (!isSearched) {
+      return (
+        <div>
+          <Helmet>
+            <title>La mia Liberia</title>
+          </Helmet>
+          <SearchBooksByTitle action={this.handlerSearchByTitle} />
+          <SearchBooksByAuthor action={this.handlerSearchByAuthor} />
+          <SearchAllBooks action={this.handlerSearchAllBooks} />
+        </div>
+      )
     } else {
       return (
         <div>
@@ -140,8 +180,8 @@ class SearchAllBooks extends React.Component {
   }
 
   render() {
-    return(
-          <button onClick={this.handlePress}>Mostra tutti i libri</button>       
+    return (
+      <button onClick={this.handlePress}>Mostra tutti i libri</button>
     )
   }
 }

@@ -27,7 +27,6 @@ class App extends React.Component {
   handlerSearchByAuthor(searchAuthor) {
     if (searchAuthor) {
       this.setState({ author: searchAuthor, title: '' })
-
       this.getData("https://my-home-bookshelf.herokuapp.com/books/author/" + searchAuthor)
     }
   }

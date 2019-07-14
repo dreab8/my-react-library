@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { Helmet } from 'react-helmet';
 
 import './index.css';
+import './favicon.ico';
 
 class App extends React.Component {
   constructor(props) {
@@ -99,6 +100,7 @@ class App extends React.Component {
         <div>
           <Helmet>
             <title>La mia Liberia</title>
+            <link rel="icon" type="image/png" href="./favicon.ico" sizes="16x16" />
           </Helmet>
           <SearchBooksByTitle action={this.handlerSearchByTitle} />
           <SearchBooksByAuthor action={this.handlerSearchByAuthor} />
@@ -111,10 +113,12 @@ class App extends React.Component {
         <div>
           <Helmet>
             <title>La mia Liberia</title>
+            <link rel="icon" type="image/png" href="favicon.ico" sizes="16x16" />
           </Helmet>
           <SearchBooksByTitle action={this.handlerSearchByTitle} />
           <SearchBooksByAuthor action={this.handlerSearchByAuthor} />
           <SearchAllBooks action={this.handlerSearchAllBooks} />
+          
         </div>
       )
     } else {
@@ -122,6 +126,7 @@ class App extends React.Component {
         <div>
           <Helmet>
             <title>La mia Liberia</title>
+            <link rel="icon" type="image/png" href="favicon.ico" sizes="16x16" />
           </Helmet>
           <SearchBooksByTitle action={this.handlerSearchByTitle} />
           <SearchBooksByAuthor action={this.handlerSearchByAuthor} />

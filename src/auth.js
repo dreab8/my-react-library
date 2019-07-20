@@ -41,8 +41,9 @@ export default class Auth {
         localStorage.removeItem('access_token');
         localStorage.removeItem('id_token');
         localStorage.removeItem('expires_at');
-        
-        this.auth0.logout({returnTo: "http://localhost:3000"});
+        let retUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:3000/callback' : 'https://my-personal-bookshelf.herokuapp.com/callback',
+
+        this.auth0.logout({returnTo: retUrl});
                
     }
 

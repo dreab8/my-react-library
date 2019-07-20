@@ -6,7 +6,9 @@ export default class Auth {
     auth0 = new auth0.WebAuth({
         domain: 'dev-dje0lfse.eu.auth0.com',
         clientID: 'VSSc8ziGbuKYdjrOhDV21IoLj41o9Tbk',
-        redirectUri: process.env.NODE_ENV === 'development' ? 'http://localhost:3000/callback' : 'https://my-personal-bookshelf.herokuapp.com/callback',
+        // redirectUri: process.env.NODE_ENV === 'development' ? 'http://localhost:3000/callback' : 'https://my-personal-bookshelf.herokuapp.com/callback',
+        redirectUri: process.env.NODE_ENV ===  'https://my-personal-bookshelf.herokuapp.com/callback',
+
         audience: 'my-go-library',
         responseType: 'token id_token',
         scope: 'openid'
@@ -41,7 +43,7 @@ export default class Auth {
         localStorage.removeItem('access_token');
         localStorage.removeItem('id_token');
         localStorage.removeItem('expires_at');
-        let retUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:3000/callback' : 'https://my-personal-bookshelf.herokuapp.com/callback';
+        let retUrl = 'https://my-personal-bookshelf.herokuapp.com/callback';
 
         this.auth0.logout({returnTo: retUrl});
                

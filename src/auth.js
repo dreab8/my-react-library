@@ -7,7 +7,7 @@ export default class Auth {
         domain: 'dev-dje0lfse.eu.auth0.com',
         clientID: 'VSSc8ziGbuKYdjrOhDV21IoLj41o9Tbk',
         // redirectUri: process.env.NODE_ENV === 'development' ? 'http://localhost:3000/callback' : 'https://my-personal-bookshelf.herokuapp.com/callback',
-        redirectUri: process.env.NODE_ENV ===  'https://my-personal-bookshelf.herokuapp.com/callback',
+        redirectUri: 'https://my-personal-bookshelf.herokuapp.com/callback',
 
         audience: 'my-go-library',
         responseType: 'token id_token',
